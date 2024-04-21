@@ -10,6 +10,7 @@ import os
 import cv2
 import torch
 from PIL import Image
+from roboflow import Roboflow
 
 import utils
 from model import Model
@@ -52,6 +53,14 @@ if __name__ == '__main__':
     pretrained_model = input("Do you want to use a pretrained model? Suggest to press 'y' for the first time. (y/n): ")
     if pretrained_model == 'y':
         model_path = 'models/pre_trained_256_0.5_200_128_500_20240420041730_model.pth'
+        # download dataset from roboflow then save to local
+        rf = Roboflow(api_key="eSdWlAgPzoRe5BDLTdFr")
+        project = rf.workspace("yaid-pzikt").project("firefighting-device-detection")
+        version = project.version(6)
+        dataset = version.download("coco")
+        print("Downloaded Complete")
+        utils.FirefightingDataset('Firefighting-Device-Detection-6/test/', '_annotations.coco.json',
+                                              transform=utils.test_transform)
         # check if the model exists
         if not os.path.exists(model_path):
             os.makedirs('models', exist_ok=True)
@@ -80,8 +89,10 @@ if __name__ == '__main__':
 
     use_pre_set_symbol = input("Do you want to test a pre-selected symbol (press y) or use mouse to crop a symbol (press n)? (y/n): ")
     if use_pre_set_symbol == 'y':
-        symbol_name = '5/category_5_2dae7bbf23dcdf3841a47b9b92893c96.png'
-        symbol = Image.open(data_path + symbol_name)
+        # pick any file from folder '5' as a symbol using os.listdir()
+        symbol_path = data_path + '5/'
+        symbol_name = os.listdir(symbol_path)[0]
+        symbol = Image.open(symbol_path + symbol_name)
     elif use_pre_set_symbol == 'n':
         # open the picture in cv2, then use mouse to crop a symbol. Save the cropped symbol to the variable symbol
         rect_endpoint_tmp = []
@@ -177,28 +188,11 @@ if __name__ == '__main__':
     # save the picture to local
     cv2.imwrite('result.jpg', picture)
 
-    picture = cv2.putText(picture, "Complete! Result saved as 'result.jpg'. Press any key to exit.", (int(picture.shape[1] / 2) - 300, int(picture.shape[0] / 2)), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2, cv2.LINE_AA)
+    picture = cv2.putText(picture, "Complete! Result saved as 'result.jpg'. Press any key to exit.", (int(picture.shape[1] / 2) - 400, int(picture.shape[0] / 2)), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2, cv2.LINE_AA)
     cv2.imshow("All high similarity symbols found. Press any key to exit.", picture)
     print("found all high similarity windows")
     cv2.waitKey(0)
     cv2.destroyAllWindows()
-
-    # quit()
-    #
-    # print("picture shape: ", picture.shape)
-    # for y in range(0, picture.shape[0] - window_size, stride):
-    #     for x in range(0, picture.shape[1] - window_size, stride):
-    #         window = picture[y:y + window_size, x:x + window_size]
-    #         # conver twindow to PIL image, then to tensor
-    #         window_tensor = utils.test_transform(Image.fromarray(window)).unsqueeze(dim=0).to(device)
-    #         feature, _ = model(window_tensor)
-    #         similarity = torch.nn.functional.cosine_similarity(feature, model(symbol)[0])
-    #         print("trying at ({}, {}), similarity: {}".format(x, y, similarity.item()))
-    #         if similarity > similarity_threshold:
-    #             cv2.rectangle(picture, (x, y), (x + window_size, y + window_size), (0, 255, 0), 2)
-    #             cv2.imshow('window', window)
-    #             cv2.imshow('picture', picture)
-    #             cv2.waitKey(1)
 
 
 
