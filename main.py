@@ -64,7 +64,7 @@ if __name__ == '__main__':
         # check if the model exists
         if not os.path.exists(model_path):
             os.makedirs('models', exist_ok=True)
-            print("The pretrained model does not exist. Please put the given trained model under the 'models' folder.")
+            print("The pretrained model does not exist! Please download from 'https://github.com/Wan-ZL/Firefighting-Device-Detector/releases/tag/v1.0-model-release' and then put it under the 'models' folder.")
             exit()
     elif pretrained_model == 'n':
         train_model()
