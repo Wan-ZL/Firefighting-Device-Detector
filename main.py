@@ -188,7 +188,7 @@ if __name__ == '__main__':
     # save the picture to local
     cv2.imwrite('result.jpg', picture)
 
-    picture = cv2.putText(picture, "Complete! Result saved as 'result.jpg'. Press any key to exit.", (int(picture.shape[1] / 2) - 400, int(picture.shape[0] / 2)), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2, cv2.LINE_AA)
+    picture = cv2.putText(picture, "Complete! Result saved as 'result.jpg'. Press any key to exit.", (int(picture.shape[1] / 2) - 390, int(picture.shape[0] / 2)), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2, cv2.LINE_AA)
     cv2.imshow("All high similarity symbols found. Press any key to exit.", picture)
     print("found all high similarity windows")
     cv2.waitKey(0)
