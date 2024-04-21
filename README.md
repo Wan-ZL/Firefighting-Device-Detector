@@ -1,5 +1,3 @@
-# Symbol-Localization
-
 # Firefighting Device Detection Project
 
 This project is a Python (3.8.19) application that uses a modified SimCLR model for detecting firefighting devices in images. The model is trained on the 'Firefighting Device Detection Image Dataset' from Roboflow.
