@@ -21,12 +21,18 @@ The model is a SimCLR but modified by replacing ResNet50 with a pre-trained ResN
     ```
     pip install -r requirements.txt
     ```
-5. Run the main script:
+5. Download the pre-trained model from the "Releases" section on GitHub.
+6. Create a folder named `models` in the project directory:
+    ```
+    mkdir models
+    ```
+7. Move the downloaded model file into the `models/` directory.
+8. Run the main script:
     ```
     python main.py
     ```
-6. You will be prompted to select if you want to use an existing pre-trained model or train a new one. Training a new model will take a lot of time, so it is suggested to use the pre-trained model for the first time.
-7. The program will then ask if you want to test on a pre-selected symbol or use the mouse to crop the one you like. Try the pre-selected symbol first time to test if everything works properly.
+9. You will be prompted to select if you want to use an existing pre-trained model or train a new one. Training a new model will take a lot of time, so it is suggested to use the pre-trained model for the first time.
+10. The program will then ask if you want to test on a pre-selected symbol or use the mouse to crop the one you like. Try the pre-selected symbol first time to test if everything works properly.
 
 ## Dataset
 
