@@ -51,7 +51,12 @@ if __name__ == '__main__':
     # ask if user want to use pretrained model or train a new model
     pretrained_model = input("Do you want to use a pretrained model? Suggest to press 'y' for the first time. (y/n): ")
     if pretrained_model == 'y':
-        model_path = 'models/pre_trained/pre_trained_256_0.5_200_128_500_20240420041730_model.pth'
+        model_path = 'models/pre_trained_256_0.5_200_128_500_20240420041730_model.pth'
+        # check if the model exists
+        if not os.path.exists(model_path):
+            os.makedirs('models', exist_ok=True)
+            print("The pretrained model does not exist. Please put the given trained model under the 'models' folder.")
+            exit()
     elif pretrained_model == 'n':
         train_model()
         model_path = 'models/256_0.5_200_128_500_model.pth'
